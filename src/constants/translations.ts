@@ -180,6 +180,26 @@ export const translations: Record<LanguageCode, Record<string, string>> = {
   },
 };
 
+const mainTranslations: Record<LanguageCode, Record<string, string>> = {
+  en: {
+    home: "Home", members: "Members", savings: "Savings", loans: "Loans", profile: "Profile", expenses: "Expenses",
+    registered: "Registered", total: "Total", outstanding: "Outstanding", thisMonth: "This month", quickActions: "Quick actions",
+    addMember: "Add member", deposit: "Deposit", issueLoan: "Issue loan", recentActivity: "Recent activity", viewAll: "View all",
+    todaysCollection: "Today's collection", membersPaid: "Members paid", trackExpenses: "Track organisation expenses",
+    manageLoans: "Manage issued loans", registeredMembers: "Registered members of your Bachat Gat", monthlyCollection: "Monthly collection history",
+    settings: "Settings", language: "Language", theme: "Theme", notifications: "Notifications", changeMpin: "Change MPIN",
+    privacy: "Privacy", logout: "Logout", cancel: "Cancel", system: "System", enabled: "Enabled", active: "Active",
+    completed: "Completed", overdue: "Overdue", nextEmi: "Next EMI", loanActive: "Loan active", noLoan: "No loan",
+    collected: "Collected", pending: "Pending", membersCount: "members",
+  },
+  mr: { home: "मुख्यपृष्ठ", members: "सदस्य", savings: "बचत", loans: "कर्ज", profile: "प्रोफाइल", expenses: "खर्च", quickActions: "जलद कृती", recentActivity: "अलीकडील व्यवहार", settings: "सेटिंग्ज", language: "भाषा", notifications: "सूचना", logout: "लॉग आउट" },
+  hi: { home: "होम", members: "सदस्य", savings: "बचत", loans: "ऋण", profile: "प्रोफ़ाइल", expenses: "खर्च", quickActions: "त्वरित कार्य", recentActivity: "हाल की गतिविधि", settings: "सेटिंग्स", language: "भाषा", notifications: "सूचनाएं", logout: "साइन आउट" },
+  gu: { home: "હોમ", members: "સભ્યો", savings: "બચત", loans: "લોન", profile: "પ્રોફાઇલ", expenses: "ખર્ચ", quickActions: "ઝડપી ક્રિયાઓ", recentActivity: "તાજેતરની પ્રવૃત્તિ", settings: "સેટિંગ્સ", language: "ભાષા", notifications: "સૂચનાઓ", logout: "લૉગ આઉટ" },
+  kn: { home: "ಮುಖಪುಟ", members: "ಸದಸ್ಯರು", savings: "ಉಳಿತಾಯ", loans: "ಸಾಲಗಳು", profile: "ಪ್ರೊಫೈಲ್", expenses: "ವೆಚ್ಚಗಳು", quickActions: "ತ್ವರಿತ ಕ್ರಮಗಳು", recentActivity: "ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆ", settings: "ಸೆಟ್ಟಿಂಗ್‌ಗಳು", language: "ಭಾಷೆ", notifications: "ಅಧಿಸೂಚನೆಗಳು", logout: "ಲಾಗ್ ಔಟ್" },
+  ta: { home: "முகப்பு", members: "உறுப்பினர்கள்", savings: "சேமிப்பு", loans: "கடன்கள்", profile: "சுயவிவரம்", expenses: "செலவுகள்", quickActions: "விரைவு செயல்கள்", recentActivity: "சமீபத்திய செயல்பாடு", settings: "அமைப்புகள்", language: "மொழி", notifications: "அறிவிப்புகள்", logout: "வெளியேறு" },
+  te: { home: "హోమ్", members: "సభ్యులు", savings: "పొదుపు", loans: "రుణాలు", profile: "ప్రొఫైల్", expenses: "ఖర్చులు", quickActions: "త్వరిత చర్యలు", recentActivity: "ఇటీవలి కార్యకలాపం", settings: "సెట్టింగ్‌లు", language: "భాష", notifications: "నోటిఫికేషన్లు", logout: "లాగ్ అవుట్" },
+};
+
 export const LANGUAGES = [
   {
     code: "en",
@@ -225,8 +245,12 @@ export function getTranslation(
   language: LanguageCode
 ) {
   return (
-    translations[language] ??
-    translations[DEFAULT_LANGUAGE]
+    {
+      ...translations[DEFAULT_LANGUAGE],
+      ...mainTranslations.en,
+      ...translations[language],
+      ...mainTranslations[language],
+    }
   );
 }
 

@@ -3,8 +3,7 @@ import { User } from "./user";
 export interface AuthSession {
   token: string;
 
-  // Future Backend Support
-  refreshToken?: string;
+  refreshToken: string;
 
   expiryTime: string;
 

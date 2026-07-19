@@ -78,14 +78,14 @@ export async function register(
 /* -------------------------------------------------------------------------- */
 
 export async function validateSession(): Promise<boolean> {
-  const token = await getAccessToken();
-
-  if (!token) {
+  if (!(await getAccessToken()) && !(await getRefreshToken())) {
     return false;
   }
 
   try {
-    await validateSessionAPI(token);
+    await validateSessionAPI(
+      (await getAccessToken()) ?? ""
+    );
 
     return true;
   } catch (error) {
@@ -122,11 +122,7 @@ export async function refreshSession(): Promise<boolean> {
       session.token
     );
 
-    if (session.refreshToken) {
-      await saveRefreshToken(
-        session.refreshToken
-      );
-    }
+    await saveRefreshToken(session.refreshToken);
 
     if (session.user) {
       await saveUser(session.user);

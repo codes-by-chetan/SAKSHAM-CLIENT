@@ -1,6 +1,7 @@
 import { FlatList } from "react-native";
 
-import Screen from "@/components/Screen";
+import MainScreen from "@/components/MainScreen";
+import { useLanguage } from "@/hooks/useLanguage";
 import SectionHeader from "@/components/dashboard/SectionHeader";
 
 import MemberCard, {
@@ -39,16 +40,19 @@ const members: Member[] = [
 ];
 
 export default function MembersScreen() {
+  const { t } = useLanguage();
+
   return (
-    <Screen scroll={false}>
+    <MainScreen>
       <FlatList
         data={members}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 24 }}
         ListHeaderComponent={
           <SectionHeader
-            title="Members"
-            subtitle="Registered members of your Bachat Gat"
+            title={t.members}
+            subtitle={t.registeredMembers}
           />
         }
         renderItem={({ item }) => (
@@ -57,6 +61,6 @@ export default function MembersScreen() {
           />
         )}
       />
-    </Screen>
+    </MainScreen>
   );
 }

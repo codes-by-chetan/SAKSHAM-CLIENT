@@ -1,6 +1,7 @@
 import {
   clearSession,
   getAccessToken,
+  getRefreshToken,
   getSettings,
 } from "./storage";
 
@@ -34,9 +35,12 @@ export async function bootstrap(): Promise<BootstrapResult> {
     /*                            Check Access Token                          */
     /* ---------------------------------------------------------------------- */
 
-    const accessToken = await getAccessToken();
+    const [accessToken, refreshToken] = await Promise.all([
+      getAccessToken(),
+      getRefreshToken(),
+    ]);
 
-    if (!accessToken) {
+    if (!accessToken && !refreshToken) {
       return {
         languageSelected: true,
         authenticated: false,

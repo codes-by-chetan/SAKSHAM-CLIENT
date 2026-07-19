@@ -75,11 +75,12 @@ export async function signUp(
 export async function validateSession(
   token: string
 ) {
-  return request(
+  return request<void>(
     "/auth/validate",
     {
-      method: "POST",
+      method: "GET",
       token,
+      authenticated: true,
     }
   );
 }

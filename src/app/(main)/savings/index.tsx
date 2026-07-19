@@ -1,6 +1,7 @@
 import { FlatList } from "react-native";
 
-import Screen from "@/components/Screen";
+import MainScreen from "@/components/MainScreen";
+import { useLanguage } from "@/hooks/useLanguage";
 import SectionHeader from "@/components/dashboard/SectionHeader";
 
 import SavingsCard, {
@@ -32,22 +33,25 @@ const savings: Savings[] = [
 ];
 
 export default function SavingsScreen() {
+  const { t } = useLanguage();
+
   return (
-    <Screen scroll={false}>
+    <MainScreen>
       <FlatList
         data={savings}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 24 }}
         ListHeaderComponent={
           <SectionHeader
-            title="Savings"
-            subtitle="Monthly collection history"
+            title={t.savings}
+            subtitle={t.monthlyCollection}
           />
         }
         renderItem={({ item }) => (
           <SavingsCard item={item} />
         )}
       />
-    </Screen>
+    </MainScreen>
   );
 }

@@ -4,6 +4,7 @@ import {
   ChevronRight,
   CircleDollarSign,
 } from "lucide-react-native";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export interface Loan {
   id: string;
@@ -28,23 +29,25 @@ export default function LoanCard({
   loan,
   onPress,
 }: LoanCardProps) {
+  const { t } = useLanguage();
+
   const statusColor = {
     active: {
       bg: "bg-blue-100",
       text: "text-blue-700",
-      label: "Active",
+      label: t.active,
     },
 
     completed: {
       bg: "bg-green-100",
       text: "text-green-700",
-      label: "Completed",
+      label: t.completed,
     },
 
     overdue: {
       bg: "bg-red-100",
       text: "text-red-700",
-      label: "Overdue",
+      label: t.overdue,
     },
   }[loan.status];
 
@@ -52,7 +55,7 @@ export default function LoanCard({
     <TouchableOpacity
       activeOpacity={0.85}
       onPress={onPress}
-      className="mb-4 rounded-3xl bg-white p-5"
+      className="mb-4 rounded-3xl bg-white p-4"
       style={{
         elevation: 2,
       }}
@@ -92,7 +95,7 @@ export default function LoanCard({
         <View>
 
           <Text className="text-xs text-stone-500">
-            Outstanding
+            {t.outstanding}
           </Text>
 
           <Text className="mt-1 text-xl font-bold text-red-600">
@@ -104,7 +107,7 @@ export default function LoanCard({
         <View>
 
           <Text className="text-xs text-stone-500">
-            Next EMI
+            {t.nextEmi}
           </Text>
 
           <View className="mt-2 flex-row items-center">

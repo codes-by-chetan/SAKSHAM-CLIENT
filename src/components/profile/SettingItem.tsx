@@ -31,7 +31,7 @@ export default function SettingItem({
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={onPress}
-      className="mb-3 flex-row items-center rounded-3xl bg-white p-5"
+      className="mb-3 flex-row items-center rounded-3xl bg-white p-4"
       style={{
         elevation: 2,
       }}

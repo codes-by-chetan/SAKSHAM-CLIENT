@@ -1,6 +1,7 @@
 import { FlatList } from "react-native";
 
-import Screen from "@/components/Screen";
+import MainScreen from "@/components/MainScreen";
+import { useLanguage } from "@/hooks/useLanguage";
 import SectionHeader from "@/components/dashboard/SectionHeader";
 
 import LoanCard, {
@@ -40,16 +41,19 @@ const loans: Loan[] = [
 ];
 
 export default function LoansScreen() {
+  const { t } = useLanguage();
+
   return (
-    <Screen scroll={false}>
+    <MainScreen>
       <FlatList
         data={loans}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 24 }}
         ListHeaderComponent={
           <SectionHeader
-            title="Loans"
-            subtitle="Manage issued loans"
+            title={t.loans}
+            subtitle={t.manageLoans}
           />
         }
         renderItem={({ item }) => (
@@ -58,6 +62,6 @@ export default function LoansScreen() {
           />
         )}
       />
-    </Screen>
+    </MainScreen>
   );
 }

@@ -1,5 +1,6 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { ChevronRight } from "lucide-react-native";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export interface Savings {
   id: string;
@@ -18,11 +19,13 @@ export default function SavingsCard({
   item,
   onPress,
 }: SavingsCardProps) {
+  const { t } = useLanguage();
+
   return (
     <TouchableOpacity
       activeOpacity={0.85}
       onPress={onPress}
-      className="mb-4 rounded-3xl bg-white p-5"
+      className="mb-4 rounded-3xl bg-white p-4"
       style={{ elevation: 2 }}
     >
       <View className="flex-row items-center justify-between">
@@ -43,7 +46,7 @@ export default function SavingsCard({
         <View>
 
           <Text className="text-xs text-stone-500">
-            Collected
+            {t.collected}
           </Text>
 
           <Text className="mt-1 text-xl font-bold text-green-700">
@@ -55,7 +58,7 @@ export default function SavingsCard({
         <View>
 
           <Text className="text-xs text-stone-500">
-            Pending
+            {t.pending}
           </Text>
 
           <Text className="mt-1 text-xl font-bold text-red-600">
@@ -82,7 +85,7 @@ export default function SavingsCard({
       </View>
 
       <Text className="mt-3 text-sm text-stone-500">
-        {item.totalMembers} members
+        {item.totalMembers} {t.membersCount}
       </Text>
 
     </TouchableOpacity>

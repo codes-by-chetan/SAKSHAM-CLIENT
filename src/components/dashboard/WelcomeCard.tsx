@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface WelcomeCardProps {
   userName: string;
@@ -14,6 +15,8 @@ export default function WelcomeCard({
   todayCollection = "₹0",
   membersPaidToday = 0,
 }: WelcomeCardProps) {
+  const { t } = useLanguage();
+
   function getGreeting() {
     const hour = new Date().getHours();
 
@@ -26,7 +29,7 @@ export default function WelcomeCard({
 
   return (
     <View
-      className="rounded-[32px] bg-leaf p-6"
+      className="rounded-[32px] bg-leaf p-5"
       style={{
         elevation: 5,
       }}
@@ -48,7 +51,7 @@ export default function WelcomeCard({
         <View className="flex-1">
 
           <Text className="text-sm text-green-100">
-            Today's Collection
+            {t.todaysCollection}
           </Text>
 
           <Text className="mt-2 text-2xl font-black text-white">
@@ -62,7 +65,7 @@ export default function WelcomeCard({
         <View className="flex-1 pl-5">
 
           <Text className="text-sm text-green-100">
-            Members Paid
+            {t.membersPaid}
           </Text>
 
           <Text className="mt-2 text-2xl font-black text-white">

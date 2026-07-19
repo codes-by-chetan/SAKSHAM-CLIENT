@@ -26,7 +26,7 @@ export default function ExpenseCard({
     <TouchableOpacity
       activeOpacity={0.85}
       onPress={onPress}
-      className="mb-4 rounded-3xl bg-white p-5"
+      className="mb-4 rounded-3xl bg-white p-4"
       style={{ elevation: 2 }}
     >
       <View className="flex-row items-center justify-between">

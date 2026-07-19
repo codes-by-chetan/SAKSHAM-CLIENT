@@ -1,6 +1,7 @@
 import { FlatList } from "react-native";
 
-import Screen from "@/components/Screen";
+import MainScreen from "@/components/MainScreen";
+import { useLanguage } from "@/hooks/useLanguage";
 import SectionHeader from "@/components/dashboard/SectionHeader";
 
 import ExpenseCard, {
@@ -39,16 +40,19 @@ const expenses: Expense[] = [
 ];
 
 export default function ExpensesScreen() {
+  const { t } = useLanguage();
+
   return (
-    <Screen scroll={false}>
+    <MainScreen>
       <FlatList
         data={expenses}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 24 }}
         ListHeaderComponent={
           <SectionHeader
-            title="Expenses"
-            subtitle="Track organization expenses"
+            title={t.expenses}
+            subtitle={t.trackExpenses}
           />
         }
         renderItem={({ item }) => (
@@ -57,6 +61,6 @@ export default function ExpensesScreen() {
           />
         )}
       />
-    </Screen>
+    </MainScreen>
   );
 }

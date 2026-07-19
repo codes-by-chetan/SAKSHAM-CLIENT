@@ -7,7 +7,8 @@ import {
   Users,
 } from "lucide-react-native";
 
-import Screen from "@/components/Screen";
+import MainScreen from "@/components/MainScreen";
+import { useLanguage } from "@/hooks/useLanguage";
 
 import WelcomeCard from "@/components/dashboard/WelcomeCard";
 import SummaryCard from "@/components/dashboard/SummaryCard";
@@ -42,8 +43,10 @@ const recentActivities: ActivityItem[] = [
 ];
 
 export default function DashboardScreen() {
+  const { t } = useLanguage();
+
   return (
-    <Screen scroll={false}>
+    <MainScreen>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -64,9 +67,9 @@ export default function DashboardScreen() {
         <View className="mt-6 flex-row">
 
           <SummaryCard
-            title="Members"
+            title={t.members}
             value="24"
-            subtitle="Registered"
+            subtitle={t.registered}
             icon={
               <Users
                 size={22}
@@ -78,9 +81,9 @@ export default function DashboardScreen() {
           <View className="w-4" />
 
           <SummaryCard
-            title="Savings"
+            title={t.savings}
             value="₹2.35L"
-            subtitle="Total"
+            subtitle={t.total}
             icon={
               <Banknote
                 size={22}
@@ -94,9 +97,9 @@ export default function DashboardScreen() {
         <View className="mt-4 flex-row">
 
           <SummaryCard
-            title="Loans"
+            title={t.loans}
             value="₹48K"
-            subtitle="Outstanding"
+            subtitle={t.outstanding}
             icon={
               <CircleDollarSign
                 size={22}
@@ -108,9 +111,9 @@ export default function DashboardScreen() {
           <View className="w-4" />
 
           <SummaryCard
-            title="Expenses"
+            title={t.expenses}
             value="₹8,900"
-            subtitle="This Month"
+            subtitle={t.thisMonth}
             icon={
               <Receipt
                 size={22}
@@ -126,16 +129,20 @@ export default function DashboardScreen() {
         <View className="mt-8">
 
           <SectionHeader
-            title="Quick Actions"
+            title={t.quickActions}
           />
 
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: 4,
+              paddingVertical: 6,
+            }}
           >
             <QuickAction
-              title="Add Member"
-              subtitle="Register"
+              title={t.addMember}
+              subtitle={t.registered}
               icon={
                 <UserPlus
                   size={28}
@@ -145,8 +152,8 @@ export default function DashboardScreen() {
             />
 
             <QuickAction
-              title="Savings"
-              subtitle="Deposit"
+              title={t.savings}
+              subtitle={t.deposit}
               icon={
                 <Banknote
                   size={28}
@@ -156,8 +163,8 @@ export default function DashboardScreen() {
             />
 
             <QuickAction
-              title="Issue Loan"
-              subtitle="New Loan"
+              title={t.issueLoan}
+              subtitle={t.loans}
               icon={
                 <CircleDollarSign
                   size={28}
@@ -167,8 +174,8 @@ export default function DashboardScreen() {
             />
 
             <QuickAction
-              title="Expense"
-              subtitle="Record"
+              title={t.expenses}
+              subtitle={t.expenses}
               icon={
                 <Receipt
                   size={28}
@@ -185,8 +192,8 @@ export default function DashboardScreen() {
         <View className="mt-8">
 
           <SectionHeader
-            title="Recent Activity"
-            actionText="View All"
+            title={t.recentActivity}
+            actionText={t.viewAll}
           />
 
           {recentActivities.map((activity) => (
@@ -199,6 +206,6 @@ export default function DashboardScreen() {
         </View>
 
       </ScrollView>
-    </Screen>
+    </MainScreen>
   );
 }

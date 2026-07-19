@@ -22,7 +22,7 @@ export default function QuickAction({
     <TouchableOpacity
       activeOpacity={0.85}
       onPress={onPress}
-      className="mr-4 w-36 rounded-3xl bg-white p-5 shadow-sm"
+      className="mr-4 w-32 rounded-3xl bg-white p-4 shadow-sm"
       style={{
         elevation: 3,
       }}

@@ -3,6 +3,7 @@ import {
   ChevronRight,
   Phone,
 } from "lucide-react-native";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export interface Member {
   id: string;
@@ -26,11 +27,13 @@ export default function MemberCard({
   member,
   onPress,
 }: MemberCardProps) {
+  const { t } = useLanguage();
+
   return (
     <TouchableOpacity
       activeOpacity={0.85}
       onPress={onPress}
-      className="mb-4 rounded-3xl bg-white p-5"
+      className="mb-4 rounded-3xl bg-white p-4"
       style={{
         elevation: 2,
       }}
@@ -78,7 +81,7 @@ export default function MemberCard({
         <View>
 
           <Text className="text-xs text-stone-500">
-            Savings
+            {t.savings}
           </Text>
 
           <Text className="mt-1 text-lg font-bold text-green-700">
@@ -102,8 +105,8 @@ export default function MemberCard({
             }`}
           >
             {member.activeLoan
-              ? "Loan Active"
-              : "No Loan"}
+              ? t.loanActive
+              : t.noLoan}
           </Text>
         </View>
 

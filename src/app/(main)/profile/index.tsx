@@ -10,7 +10,7 @@ import {
   Shield,
 } from "lucide-react-native";
 
-import Screen from "@/components/Screen";
+import MainScreen from "@/components/MainScreen";
 import SectionHeader from "@/components/dashboard/SectionHeader";
 import SettingItem from "@/components/profile/SettingItem";
 
@@ -20,19 +20,19 @@ import { useAuth } from "@/hooks/useAuth";
 export default function ProfileScreen() {
   const { logout } = useAuth();
 
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   async function handleLogout() {
     Alert.alert(
-      "Logout",
-      "Are you sure you want to logout?",
+      t.logout,
+      t.logout,
       [
         {
-          text: "Cancel",
+          text: t.cancel,
           style: "cancel",
         },
         {
-          text: "Logout",
+          text: t.logout,
           style: "destructive",
           onPress: async () => {
             await logout();
@@ -47,9 +47,10 @@ export default function ProfileScreen() {
   }
 
   return (
-    <Screen scroll={false}>
+    <MainScreen>
       <ScrollView
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 24 }}
       >
         <View className="items-center py-8">
 
@@ -72,11 +73,11 @@ export default function ProfileScreen() {
         </View>
 
         <SectionHeader
-          title="Settings"
+          title={t.settings}
         />
 
         <SettingItem
-          title="Language"
+          title={t.language}
           subtitle={language.toUpperCase()}
           icon={
             <Languages
@@ -87,8 +88,8 @@ export default function ProfileScreen() {
         />
 
         <SettingItem
-          title="Theme"
-          subtitle="System"
+          title={t.theme}
+          subtitle={t.system}
           icon={
             <Moon
               size={24}
@@ -98,8 +99,8 @@ export default function ProfileScreen() {
         />
 
         <SettingItem
-          title="Notifications"
-          subtitle="Enabled"
+          title={t.notifications}
+          subtitle={t.enabled}
           icon={
             <Bell
               size={24}
@@ -109,8 +110,8 @@ export default function ProfileScreen() {
         />
 
         <SettingItem
-          title="Change MPIN"
-          subtitle="Update security PIN"
+          title={t.changeMpin}
+          subtitle={t.changeMpin}
           icon={
             <Lock
               size={24}
@@ -120,8 +121,8 @@ export default function ProfileScreen() {
         />
 
         <SettingItem
-          title="Privacy"
-          subtitle="Security settings"
+          title={t.privacy}
+          subtitle={t.settings}
           icon={
             <Shield
               size={24}
@@ -133,7 +134,7 @@ export default function ProfileScreen() {
         <View className="mt-8">
 
           <SettingItem
-            title="Logout"
+            title={t.logout}
             danger
             onPress={handleLogout}
             icon={
@@ -147,6 +148,6 @@ export default function ProfileScreen() {
         </View>
 
       </ScrollView>
-    </Screen>
+    </MainScreen>
   );
 }

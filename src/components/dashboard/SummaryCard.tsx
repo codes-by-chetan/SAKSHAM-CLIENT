@@ -20,7 +20,7 @@ export default function SummaryCard({
         flex-1
         rounded-3xl
         bg-white
-        p-5
+        p-4
         shadow-sm
       "
       style={{

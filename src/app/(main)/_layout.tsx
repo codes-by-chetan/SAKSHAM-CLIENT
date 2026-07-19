@@ -7,8 +7,11 @@ import {
   HandCoins,
   UserRound,
 } from "lucide-react-native";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function MainLayout() {
+  const { t } = useLanguage();
+
   return (
     <Tabs
       screenOptions={{
@@ -28,7 +31,7 @@ export default function MainLayout() {
       <Tabs.Screen
         name="dashboard"
         options={{
-          title: "Home",
+          title: t.home,
 
           tabBarIcon: ({ color, size }) => (
             <House
@@ -42,7 +45,7 @@ export default function MainLayout() {
       <Tabs.Screen
         name="members"
         options={{
-          title: "Members",
+          title: t.members,
 
           tabBarIcon: ({ color, size }) => (
             <Users
@@ -56,7 +59,7 @@ export default function MainLayout() {
       <Tabs.Screen
         name="savings"
         options={{
-          title: "Savings",
+          title: t.savings,
 
           tabBarIcon: ({ color, size }) => (
             <Wallet
@@ -70,7 +73,7 @@ export default function MainLayout() {
       <Tabs.Screen
         name="loans"
         options={{
-          title: "Loans",
+          title: t.loans,
 
           tabBarIcon: ({ color, size }) => (
             <HandCoins
@@ -84,7 +87,7 @@ export default function MainLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: t.profile,
 
           tabBarIcon: ({ color, size }) => (
             <UserRound

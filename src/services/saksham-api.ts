@@ -1,48 +1,12 @@
 const API_BASE_URL =
   process.env.EXPO_PUBLIC_SAKSHAM_API_URL ?? "http://192.168.1.3:3000/api";
 
-type ContactNumber = {
-  countryCode: string;
-  number: string;
-};
-
-type ApiResponse<T> = {
-  statusCode: number;
-  data: T;
-  message: string;
-  success: boolean;
-};
-
-export type AuthSession = {
-  token: string;
-  expiryTime: string;
-  user?: {
-    fullName?: {
-      firstName?: string;
-      lastName?: string;
-    };
-    email?: string;
-    contactNumber?: ContactNumber;
-    role?: string;
-    fullNameString?: string;
-  };
-};
-
-export type SignInPayload = {
-  identifier: string;
-  password: string;
-  countryCode: string;
-};
-
-export type SignUpPayload = {
-  firstName: string;
-  lastName: string;
-  email?: string;
-  phone: string;
-  countryCode: string;
-  password: string;
-  mpin?: string;
-};
+import { ApiResponse } from "@/types/api";
+import {
+    AuthSession,
+    SignInPayload,
+    SignUpPayload,
+} from "@/types/auth";
 
 async function request<T>(
   path: string,
@@ -93,6 +57,13 @@ export function signUp(payload: SignUpPayload) {
     password: payload.password,
     mpin: payload.mpin?.trim() || undefined,
   });
+}
+
+export async function checkUserGroup() {
+  return request<ApiResponse<{ group: string | null }>>(
+    "/user/check-group",
+    {},
+  );
 }
 
 export { API_BASE_URL };

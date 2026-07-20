@@ -10,9 +10,10 @@ import {
   login as loginService,
   logout as logoutService,
   register as registerService,
+  setMpin as setMpinService,
 } from "@/services/auth";
 
-import { getUser } from "@/services/storage";
+import { getUser, saveUser } from "@/services/storage";
 
 import {
   AuthSession,
@@ -31,13 +32,15 @@ interface AuthContextType {
 
   login(
     payload: SignInPayload
-  ): Promise<void>;
+  ): Promise<AuthSession>;
 
   register(
     payload: SignUpPayload
   ): Promise<void>;
 
   logout(): Promise<void>;
+
+  setMpin(mpin: string): Promise<void>;
 
   loadUser(): Promise<void>;
 }
@@ -70,13 +73,15 @@ export function AuthProvider({
 
   async function login(
     payload: SignInPayload
-  ) {
+  ): Promise<AuthSession> {
     const session: AuthSession =
       await loginService(payload);
 
     setUser(session.user ?? null);
 
     setAuthenticated(true);
+
+    return session;
   }
 
   async function register(
@@ -98,6 +103,18 @@ export function AuthProvider({
     setAuthenticated(false);
   }
 
+  async function setMpin(mpin: string) {
+    await setMpinService(mpin);
+
+    const storedUser = await getUser();
+
+    if (storedUser) {
+      const updatedUser = { ...storedUser, hasMpin: true };
+      await saveUser(updatedUser);
+      setUser(updatedUser);
+    }
+  }
+
   const value = useMemo(
     () => ({
       user,
@@ -111,6 +128,8 @@ export function AuthProvider({
       register,
 
       logout,
+
+      setMpin,
 
       loadUser,
     }),

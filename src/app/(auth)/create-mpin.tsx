@@ -15,9 +15,11 @@ import AuthCard from "@/components/auth/AuthCard";
 import Button from "@/components/Button";
 
 import { useLanguage } from "@/hooks/useLanguage";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function CreateMPINScreen() {
   const { t } = useLanguage();
+  const { setMpin } = useAuth();
 
   const inputRef = useRef<TextInput>(null);
 
@@ -74,13 +76,14 @@ export default function CreateMPINScreen() {
     try {
       setLoading(true);
 
-      /**
-       * TODO:
-       *
-       * Save MPIN API
-       */
+      await setMpin(mpin);
 
       router.replace("/(main)/dashboard");
+    } catch (error: any) {
+      Alert.alert(
+        "Unable to set MPIN",
+        error.message ?? "Please try again."
+      );
     } finally {
       setLoading(false);
     }

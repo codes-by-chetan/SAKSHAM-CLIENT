@@ -18,6 +18,9 @@ export interface User {
 
   role?: string;
 
+  /** Whether the account has an MPIN configured. The MPIN itself is never stored. */
+  hasMpin?: boolean;
+
   createdAt?: string;
 
   updatedAt?: string;

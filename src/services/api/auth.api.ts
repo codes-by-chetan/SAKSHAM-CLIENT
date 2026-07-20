@@ -117,3 +117,31 @@ export async function logoutAPI(
     }
   );
 }
+
+export async function setMpin(
+  mpin: string,
+  token: string
+) {
+  return request<void>(
+    "/auth/set-mpin",
+    {
+      method: "POST",
+      body: { mpin },
+      token,
+      authenticated: true,
+    }
+  );
+}
+
+export async function getCurrentUser(
+  token: string
+) {
+  return request<{ user: AuthSession["user"] }>(
+    "/auth/refresh-user",
+    {
+      method: "GET",
+      token,
+      authenticated: true,
+    }
+  );
+}

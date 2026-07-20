@@ -4,6 +4,8 @@ import {
   validateSession as validateSessionAPI,
   refreshToken as refreshTokenAPI,
   logoutAPI,
+  getCurrentUser as getCurrentUserAPI,
+  setMpin as setMpinAPI,
 } from "./api/auth.api";
 
 import {
@@ -12,6 +14,7 @@ import {
   saveUser,
   getAccessToken,
   getRefreshToken,
+  getUser,
   clearSession,
 } from "./storage";
 
@@ -20,6 +23,8 @@ import {
   SignInPayload,
   SignUpPayload,
 } from "@/types/auth";
+
+import { User } from "@/types/user";
 
 /* -------------------------------------------------------------------------- */
 /*                           Private Helper Methods                           */
@@ -158,5 +163,33 @@ export async function logout(): Promise<void> {
     );
   } finally {
     await clearSession();
+  }
+}
+
+export async function getCurrentUser(): Promise<User | null> {
+  const token = await getAccessToken();
+
+  if (!token) return null;
+
+  const response = await getCurrentUserAPI(token);
+  const user = response.data.user ?? null;
+
+  if (user) await saveUser(user);
+
+  return user;
+}
+
+export async function setMpin(mpin: string): Promise<void> {
+  const token = await getAccessToken();
+
+  if (!token) {
+    throw new Error("Your session has expired. Please sign in again.");
+  }
+
+  await setMpinAPI(mpin, token);
+
+  const user = await getUser();
+  if (user) {
+    await saveUser({ ...user, hasMpin: true });
   }
 }

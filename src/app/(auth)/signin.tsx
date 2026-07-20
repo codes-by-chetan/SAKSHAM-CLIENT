@@ -34,13 +34,17 @@ export default function SignInScreen() {
     try {
       setLoading(true);
 
-      await login({
+      const session = await login({
         identifier,
         password,
         countryCode: "+91",
       });
 
-      router.replace("/(main)/dashboard");
+      router.replace(
+        session.user?.hasMpin
+          ? "/(main)/dashboard"
+          : "/(auth)/create-mpin"
+      );
     } catch (error: any) {
       console.log(error);
 

@@ -3,16 +3,19 @@ import {
   getAccessToken,
   getRefreshToken,
   getSettings,
+  getUser,
 } from "./storage";
 
 import {
   refreshSession,
   validateSession,
+  getCurrentUser,
 } from "./auth";
 
 export interface BootstrapResult {
   languageSelected: boolean;
   authenticated: boolean;
+  mpinSet: boolean;
 }
 
 export async function bootstrap(): Promise<BootstrapResult> {
@@ -28,6 +31,7 @@ export async function bootstrap(): Promise<BootstrapResult> {
       return {
         languageSelected: false,
         authenticated: false,
+        mpinSet: false,
       };
     }
 
@@ -44,6 +48,7 @@ export async function bootstrap(): Promise<BootstrapResult> {
       return {
         languageSelected: true,
         authenticated: false,
+        mpinSet: false,
       };
     }
 
@@ -53,35 +58,22 @@ export async function bootstrap(): Promise<BootstrapResult> {
 
     const isValid = await validateSession();
 
-    if (isValid) {
+    if (!isValid && !(await refreshSession())) {
+      await clearSession();
+
       return {
         languageSelected: true,
-        authenticated: true,
+        authenticated: false,
+        mpinSet: false,
       };
     }
 
-    /* ---------------------------------------------------------------------- */
-    /*                    Refresh Token (Future Backend)                      */
-    /* ---------------------------------------------------------------------- */
-
-    const refreshed = await refreshSession();
-
-    if (refreshed) {
-      return {
-        languageSelected: true,
-        authenticated: true,
-      };
-    }
-
-    /* ---------------------------------------------------------------------- */
-    /*                          Session Expired                               */
-    /* ---------------------------------------------------------------------- */
-
-    await clearSession();
+    const user = await getCurrentUser();
 
     return {
       languageSelected: true,
-      authenticated: false,
+      authenticated: true,
+      mpinSet: user?.hasMpin ?? (await getUser())?.hasMpin ?? false,
     };
   } catch (error) {
     console.error("Bootstrap failed", error);
@@ -91,6 +83,7 @@ export async function bootstrap(): Promise<BootstrapResult> {
     return {
       languageSelected: false,
       authenticated: false,
+      mpinSet: false,
     };
   }
 }

@@ -1,5 +1,3 @@
-import { ApiResponse } from "@/types/api";
-import { AuthSession } from "@/types/auth";
 import {
   getAccessToken,
   getRefreshToken,
@@ -7,10 +5,11 @@ import {
   saveRefreshToken,
   saveUser,
 } from "@/services/storage";
+import { ApiResponse } from "@/types/api";
+import { AuthSession } from "@/types/auth";
 
 export const API_BASE_URL =
-  process.env.EXPO_PUBLIC_SAKSHAM_API_URL ??
-  "http://192.168.1.3:3000/api";
+  process.env.EXPO_PUBLIC_SAKSHAM_API_URL ?? "http://192.168.1.9:3000/api";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -71,23 +70,24 @@ async function refreshAccessToken(): Promise<string | null> {
 
 export async function request<T>(
   endpoint: string,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): Promise<ApiResponse<T>> {
   const { method = "GET", body, token, authenticated = false } = options;
   const accessToken = token ?? (authenticated ? await getAccessToken() : null);
 
-  const createRequest = (bearerToken?: string | null) => fetch(`${API_BASE_URL}${endpoint}`, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      ...(bearerToken
-        ? {
-            Authorization: `Bearer ${bearerToken}`,
-          }
-        : {}),
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  const createRequest = (bearerToken?: string | null) =>
+    fetch(`${API_BASE_URL}${endpoint}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...(bearerToken
+          ? {
+              Authorization: `Bearer ${bearerToken}`,
+            }
+          : {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
 
   let response = await createRequest(accessToken);
   if (authenticated && response.status === 401) {

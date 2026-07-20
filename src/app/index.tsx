@@ -29,6 +29,11 @@ export default function Index() {
         return;
       }
 
+      if (!result.mpinSet) {
+        router.replace("/(auth)/create-mpin");
+        return;
+      }
+
       router.replace("/(main)/dashboard");
     } catch (error) {
       console.error(error);

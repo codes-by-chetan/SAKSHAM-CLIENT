@@ -12,6 +12,7 @@ import Button from "@/components/Button";
 
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
+import { getActiveMembership } from "@/services/organization";
 
 export default function SignInScreen() {
   const { login } = useAuth();
@@ -40,11 +41,17 @@ export default function SignInScreen() {
         countryCode: "+91",
       });
 
-      router.replace(
-        session.user?.hasMpin
-          ? "/(main)/dashboard"
-          : "/(auth)/create-mpin"
-      );
+      if (!session.user?.hasMpin) {
+        router.replace("/(auth)/create-mpin");
+        return;
+      }
+
+      const membership = await getActiveMembership();
+      if (membership) {
+        router.replace("/(main)/dashboard");
+      } else {
+        router.replace("/(auth)/workspace" as never);
+      }
     } catch (error: any) {
       console.log(error);
 

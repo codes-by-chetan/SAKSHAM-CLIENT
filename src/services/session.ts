@@ -11,11 +11,13 @@ import {
   validateSession,
   getCurrentUser,
 } from "./auth";
+import { getActiveMembership } from "./organization";
 
 export interface BootstrapResult {
   languageSelected: boolean;
   authenticated: boolean;
   mpinSet: boolean;
+  hasWorkspace: boolean;
 }
 
 export async function bootstrap(): Promise<BootstrapResult> {
@@ -32,6 +34,7 @@ export async function bootstrap(): Promise<BootstrapResult> {
         languageSelected: false,
         authenticated: false,
         mpinSet: false,
+        hasWorkspace: false,
       };
     }
 
@@ -49,6 +52,7 @@ export async function bootstrap(): Promise<BootstrapResult> {
         languageSelected: true,
         authenticated: false,
         mpinSet: false,
+        hasWorkspace: false,
       };
     }
 
@@ -65,6 +69,7 @@ export async function bootstrap(): Promise<BootstrapResult> {
         languageSelected: true,
         authenticated: false,
         mpinSet: false,
+        hasWorkspace: false,
       };
     }
 
@@ -74,6 +79,7 @@ export async function bootstrap(): Promise<BootstrapResult> {
       languageSelected: true,
       authenticated: true,
       mpinSet: user?.hasMpin ?? (await getUser())?.hasMpin ?? false,
+      hasWorkspace: !!(await getActiveMembership()),
     };
   } catch (error) {
     console.error("Bootstrap failed", error);
@@ -84,6 +90,7 @@ export async function bootstrap(): Promise<BootstrapResult> {
       languageSelected: false,
       authenticated: false,
       mpinSet: false,
+      hasWorkspace: false,
     };
   }
 }

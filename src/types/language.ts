@@ -7,6 +7,12 @@ export type LanguageCode =
   | "ta"
   | "te";
 
+export interface Language {
+  code: LanguageCode;
+  nativeName: string;
+  englishName: string;
+}
+
 export interface AppSettings {
   /**
    * User selected language.

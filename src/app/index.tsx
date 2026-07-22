@@ -34,7 +34,11 @@ export default function Index() {
         return;
       }
 
-      router.replace("/(main)/dashboard");
+      if (result.hasWorkspace) {
+        router.replace("/(main)/dashboard");
+      } else {
+        router.replace("/(auth)/workspace" as never);
+      }
     } catch (error) {
       console.error(error);
 

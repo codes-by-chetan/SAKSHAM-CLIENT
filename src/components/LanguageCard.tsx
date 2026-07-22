@@ -35,7 +35,9 @@ export default function LanguageCard({
           {language.nativeName}
         </Text>
 
-        <Text className="mt-1 text-sm text-stone-500">{language.name}</Text>
+        <Text className="mt-1 text-sm text-stone-500">
+          {language.englishName}
+        </Text>
       </View>
 
       {selected && (

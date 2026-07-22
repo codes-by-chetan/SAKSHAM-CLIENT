@@ -16,6 +16,7 @@ import Button from "@/components/Button";
 
 import { useLanguage } from "@/hooks/useLanguage";
 import { useAuth } from "@/hooks/useAuth";
+import { getActiveMembership } from "@/services/organization";
 
 export default function CreateMPINScreen() {
   const { t } = useLanguage();
@@ -78,7 +79,12 @@ export default function CreateMPINScreen() {
 
       await setMpin(mpin);
 
-      router.replace("/(main)/dashboard");
+      const membership = await getActiveMembership();
+      if (membership) {
+        router.replace("/(main)/dashboard");
+      } else {
+        router.replace("/(auth)/workspace" as never);
+      }
     } catch (error: any) {
       Alert.alert(
         "Unable to set MPIN",

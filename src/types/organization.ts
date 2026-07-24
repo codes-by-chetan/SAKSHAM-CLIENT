@@ -10,3 +10,10 @@ export interface OrganizationMembership {
 export interface MembershipCheck {
   membership: OrganizationMembership | null;
 }
+
+export interface OrganizationPosition {
+  id: string;
+  name: string;
+  displayName: string;
+  level: number;
+}

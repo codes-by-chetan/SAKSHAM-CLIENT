@@ -3,6 +3,7 @@ import { request } from "./api";
 import {
   MembershipCheck,
   OrganizationMembership,
+  OrganizationPosition,
   OrganizationType,
 } from "@/types/organization";
 
@@ -29,4 +30,52 @@ export async function createOrganization(
   });
 
   return response.data;
+}
+
+export async function getOrganizationPositions(
+  type: OrganizationType,
+  groupId: string,
+): Promise<OrganizationPosition[]> {
+  const response = await request<OrganizationPosition[]>(
+    `/groups/${type}/${groupId}/positions`,
+    { authenticated: true },
+  );
+
+  return response.data;
+}
+
+export async function addSelfAsMember(
+  type: OrganizationType,
+  groupId: string,
+  positionId: string,
+): Promise<void> {
+  await request(`/groups/${type}/${groupId}/self-membership`, {
+    method: "POST",
+    authenticated: true,
+    body: { positionId },
+  });
+}
+
+export async function inviteMember(
+  type: OrganizationType,
+  groupId: string,
+  payload: {
+    fullName?: string;
+    countryCode: string;
+    phone: string;
+    positionId: string;
+  },
+): Promise<void> {
+  await request(`/groups/${type}/${groupId}/invitations`, {
+    method: "POST",
+    authenticated: true,
+    body: {
+      fullName: payload.fullName?.trim() || undefined,
+      contactNumber: {
+        countryCode: payload.countryCode,
+        number: payload.phone.replace(/\D/g, ""),
+      },
+      positionId: payload.positionId,
+    },
+  });
 }

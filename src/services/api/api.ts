@@ -9,7 +9,7 @@ import { ApiResponse } from "@/types/api";
 import { AuthSession } from "@/types/auth";
 
 export const API_BASE_URL =
-  process.env.EXPO_PUBLIC_SAKSHAM_API_URL ?? "http://192.168.1.9:3000/api";
+  process.env.EXPO_PUBLIC_SAKSHAM_API_URL ?? "http://192.168.1:3000/api";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 

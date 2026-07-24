@@ -52,14 +52,10 @@ export default function WorkspaceScreen() {
 
     try {
       setLoading(true);
-      await createOrganization(selectedType, name);
-      const membership = await getActiveMembership();
-      if (!membership) {
-        throw new Error(
-          "Your group was created, but access is not active yet.",
-        );
-      }
-      router.replace("/(main)/dashboard");
+      const membership = await createOrganization(selectedType, name);
+      router.replace(
+        `/(auth)/setup-membership?groupId=${membership.id}&type=${membership.type}` as never,
+      );
     } catch (error: any) {
       Alert.alert(
         "Could not create group",
